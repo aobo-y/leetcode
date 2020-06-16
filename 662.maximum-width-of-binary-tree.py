@@ -24,10 +24,10 @@ class Solution:
             max_width = max(width, max_width)
 
             layer = [
-                (idx * 2 + (0 if b == 'left' else 1), node.left if b == 'left' else node.right)
+                (idx * 2 + i, child)
                 for idx, node in layer
-                for b in ['left', 'right']
-                if (node.left if b == 'left' else node.right)
+                for i, child in enumerate([node.left, node.right])
+                if child
             ]
 
         return max_width
