@@ -17,24 +17,13 @@ class Solution:
         if not root:
             return []
 
-        res = []
+        if not root.left and not root.right:
+            return [str(root.val)]
 
-        layer = [(root, [])]
-
-        while layer:
-            new_layer = []
-            for node, path in layer:
-                if not node.left and not node.right:
-                    res.append([*path, node])
-
-                if node.left:
-                    new_layer.append((node.left, [*path, node]))
-                if node.right:
-                    new_layer.append((node.right, [*path, node]))
-
-            layer = new_layer
-
-        return ['->'.join(str(node.val) for node in path) for path in res]
+        return [
+            str(root.val) + '->' + p
+            for p in self.binaryTreePaths(root.left) + self.binaryTreePaths(root.right)
+        ]
 
 
 # @lc code=end

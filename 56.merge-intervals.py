@@ -7,27 +7,23 @@
 # @lc code=start
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if len(intervals) < 2:
+        if not intervals:
             return intervals
 
         result = []
 
-        sorted_intervals = sorted(intervals, key=lambda i: i[0])
+        sorted_intervals = sorted(intervals)
 
         left_val, right_val = sorted_intervals[0]
 
         for interval in sorted_intervals[1:]:
             if interval[0] > right_val:
-                result.append([
-                    left_val, right_val
-                ])
+                result.append([left_val, right_val])
                 left_val, right_val = interval
             else:
                 right_val = max(interval[1], right_val)
 
-        result.append([
-            left_val, right_val
-        ])
+        result.append([left_val, right_val])
 
         return result
 # @lc code=end

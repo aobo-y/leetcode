@@ -14,28 +14,19 @@
 
 class Solution:
     def maxPathSum(self, root: TreeNode) -> int:
-        def findMax(node):
-            paths = [0]
-            max_sum_cans = []
-            max_val = node.val
-            if node.left:
-                left_max, left_path = findMax(node.left)
-                max_sum_cans.append(left_max)
-                if left_path > 0:
-                    paths.append(left_path)
-                    max_val += left_path
+        def findMax(node):  # return max sum, max single path sum
+            if not node:
+                return float('-inf'), float('-inf')
 
-            if node.right:
-                right_max, right_val = findMax(node.right)
-                max_sum_cans.append(right_max)
-                if right_val > 0:
-                    paths.append(right_val)
-                    max_val += right_val
+            l_max, l_single_sum = findMax(node.left)
+            r_max, r_single_sum = findMax(node.right)
 
-            max_path = node.val + max(paths)
-            max_sum_cans.append(max_val)
+            l_single_sum, r_single_sum = max(0, l_single_sum), max(0, r_single_sum)  # allow no child path
 
-            return max(max_sum_cans), max_path
+            single_sum = node.val + max(l_single_sum, r_single_sum)
+            combined_sum = node.val + l_single_sum + r_single_sum
+
+            return max(combined_sum, l_max, r_max), single_sum
 
         max_sum, _ = findMax(root)
         return max_sum

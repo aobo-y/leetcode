@@ -12,13 +12,10 @@ class Solution:
         pending = len(t)
         needs = Counter(t)
 
-        i = 0
         m = 0
         min_sub = ''
 
-        for i in range(len(s)):
-            c = s[i]
-
+        for i, c in enumerate(s):
             if c not in needs:
                 continue
 
