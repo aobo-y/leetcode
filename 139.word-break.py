@@ -6,22 +6,24 @@
 
 # @lc code=start
 class Solution:
+    from functools import lru_cache
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        s_dict = {w: True for w in wordDict}
-        def breakable(i, j):
-            ss = s[i:j]
-            if ss not in s_dict:
-                s_dict[ss] = False
-                for k in range(i + 1, j):
-                    if breakable(i, k) and breakable(k, j):
-                        s_dict[ss] = True
-                        break
+        ws = set(wordDict)
 
-            return s_dict[ss]
+        l = len(s)
 
-        return breakable(0, len(s))
+        @lru_cache(None)
+        def breakable(i):
+            if s[i:] in ws:
+                return True
 
+            for k in range(i + 1, l):
+                if s[i:k] in ws and breakable(k):
+                    return True
 
+            return False
+
+        return breakable(0)
 
 
 # @lc code=end

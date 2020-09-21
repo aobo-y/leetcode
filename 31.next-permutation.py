@@ -11,21 +11,23 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
 
-        max_num = nums[-1]
+        def inplace_reverse(i, j):
+            while i < j:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j -= 1
 
-        for i in range(len(nums) - 2, -1, -1):
-            if nums[i] < max_num:
-                nums[i + 1:] = nums[:i:-1]
-                for j in range(i + 1, len(nums)):
+        l = len(nums)
+
+        for i in range(l - 2, -1, -1):
+            if nums[i] < nums[i+1]:
+                inplace_reverse(i + 1, l - 1)
+                for j in range(i + 1, l):
                     if  nums[i] < nums[j]:
                         nums[i], nums[j] = nums[j], nums[i]
-                        return nums
+                        return
 
-            else:
-                max_num = nums[i]
-
-        nums[:] = nums[::-1]
-        return nums
+        inplace_reverse(0, l - 1)
 
 
 # @lc code=end

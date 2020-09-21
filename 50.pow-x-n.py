@@ -14,7 +14,7 @@ class Solution:
             n = -n
             x = 1 / x
 
-        res = 1 if n % 2 == 0 else x
+        res = 1 if not n % 2 else x
 
         p = self.myPow(x, n // 2)
         res *= p * p
