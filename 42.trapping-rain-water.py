@@ -7,33 +7,21 @@
 # @lc code=start
 class Solution:
     def trap(self, height: List[int]) -> int:
-        left_bound_idx = 0
-
+        stack = []
+        blocks = 0
         amount = 0
-        low_bound_height = 0
-
         for i, h in enumerate(height):
+            while stack and h > stack[-1][0]:
+                b, j = stack.pop()
+                if not stack:
+                    amount += b * (i - j - 1)
+                else:
+                    blocks += b
 
-            if i > 0 and h > height[i - 1]:
-                for j in range(i - 1, left_bound_idx - 1, -1):
-                    if height[j] > low_bound_height:
-                        min_height = min([height[j], h])
-                        amount += (min_height - low_bound_height) * (i - j - 1)
-                        low_bound_height = min_height
+            stack.append((h, i))
 
-                    if height[j] >= h:
-                        break
-
-                if height[i] >= height[left_bound_idx]:
-                    left_bound_idx = i
-                    low_bound_height = h
-
-            elif i > 0 and h < height[i - 1]:
-                low_bound_height = h
-
-
-        return amount
-
+        amount += sum(hl * (i - j - 1) for (hh, j), (hl, i) in zip(stack, stack[1:]))
+        return amount - blocks
 
 # @lc code=end
 
