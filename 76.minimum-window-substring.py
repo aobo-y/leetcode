@@ -23,23 +23,15 @@ class Solution:
                 pending -= 1
             needs[c] -= 1
 
-            if not pending:
-                while True:
-                    mc = s[m]
-                    if mc in needs:
-                        if needs[mc] == 0:
-                            break
-                        else:
-                            needs[mc] += 1
+            while s[m] not in needs or needs[s[m]] < 0:
+                if s[m] in needs:
+                    needs[s[m]] += 1
+                m += 1
 
-                    m += 1
-
-                length = i - m + 1
-                if not min_sub or length < len(min_sub):
-                    min_sub = s[m:i+1]
+            if not pending and (not min_sub or i - m + 1 < len(min_sub)):
+                min_sub = s[m:i+1]
 
         return min_sub
-
 
 
 # @lc code=end
