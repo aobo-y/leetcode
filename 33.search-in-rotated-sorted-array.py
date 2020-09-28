@@ -21,7 +21,7 @@ class Solution:
             lv, rv = nums[left], nums[right]
 
             # error input case
-            if target < lv and target > rv:
+            if rv < target < lv:
                 return -1
 
             if lv < rv:
@@ -30,12 +30,12 @@ class Solution:
                 else:
                     return find_idx(i + 1, right)
             elif iv < rv:
-                if target < iv or target >= lv:
-                    return find_idx(left, i - 1)
-                else:
+                if iv < target <= rv:
                     return find_idx(i + 1, right)
+                else:
+                    return find_idx(left, i - 1)
             else:
-                if target < iv and target >= lv:
+                if lv <= target < iv:
                     return find_idx(left, i - 1)
                 else:
                     return find_idx(i + 1, right)
