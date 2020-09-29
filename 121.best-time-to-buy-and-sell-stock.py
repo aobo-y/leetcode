@@ -8,17 +8,13 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         max_profit = 0
-        buy_idx = None
+        min_price = float('inf')
 
         for i, price in enumerate(prices):
-            if buy_idx is None:
-                buy_idx = 0
-                continue
-
-            if price < prices[buy_idx]:
-                buy_idx = i
-            elif price - prices[buy_idx] > max_profit:
-                max_profit = price - prices[buy_idx]
+            if price < min_price:
+                min_price = min(price, min_price)
+            else:
+                max_profit = max(max_profit, price - min_price)
 
         return max_profit
 
