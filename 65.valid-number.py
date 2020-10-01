@@ -11,9 +11,6 @@ class Solution:
         if not s:
             return False
 
-        if s[0] == '+' or s[0] == '-':
-            s = s[1:]
-
         tokens = s.split('e')
         if len(tokens) > 2:
             return False
@@ -44,8 +41,6 @@ class Solution:
                     return False
 
         return True
-
-
 
 
 # @lc code=end

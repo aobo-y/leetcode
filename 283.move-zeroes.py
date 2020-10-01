@@ -11,19 +11,16 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
 
-        j = -1
+        j = 0
 
         for i, num in enumerate(nums):
-            if num == 0 and j == -1:
-                j = i
-            elif num != 0 and j != -1:
-                nums[j] = num
+            if num != 0:
+                if j != i:
+                    nums[j] = num
                 j = j + 1
 
-        if j != -1:
-            for k in range(j, len(nums)):
-                if nums[k] != 0:
-                    nums[k] = 0
+        for k in range(j, len(nums)):
+            nums[k] = 0
 
 # @lc code=end
 

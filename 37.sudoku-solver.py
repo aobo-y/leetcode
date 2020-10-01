@@ -5,7 +5,6 @@
 #
 
 # @lc code=start
-from collections import defaultdict
 
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
@@ -13,9 +12,11 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
 
-        row_vals = defaultdict(set)
-        col_vals = defaultdict(set)
-        grid_vals = defaultdict(set)
+        row_vals = [[False] * 10 for _ in range(9)]
+        col_vals = [[False] * 10 for _ in range(9)]
+        grid_vals = [[False] * 10 for _ in range(9)]
+
+        grid_idx = lambda i, j: (i // 3) * 3 + j // 3
 
         cells = []
 
@@ -28,9 +29,9 @@ class Solution:
                     continue
 
                 num = int(num)
-                row_vals[i].add(num)
-                col_vals[j].add(num)
-                grid_vals[(i // 3) * 3 + j // 3].add(num)
+                row_vals[i][num] = True
+                col_vals[j][num] = True
+                grid_vals[grid_idx(i, j)][num] = True
 
         def dfs(k):
             if k == len(cells):
@@ -39,22 +40,20 @@ class Solution:
             i, j = cells[k]
 
             for v in range(1, 10):
-                if v in row_vals[i] or v in col_vals[j] or v in grid_vals[(i // 3) * 3 + j // 3]:
+                if row_vals[i][v] or col_vals[j][v] or grid_vals[grid_idx(i, j)][v]:
                     continue
 
-                row_vals[i].add(v)
-                col_vals[j].add(v)
-                grid_vals[(i // 3) * 3 + j // 3].add(v)
+                row_vals[i][v] = True
+                col_vals[j][v] = True
+                grid_vals[grid_idx(i, j)][v] = True
 
-                res = dfs(k + 1)
-
-                if res:
+                if dfs(k + 1):
                     board[i][j] = str(v)
                     return True
 
-                row_vals[i].remove(v)
-                col_vals[j].remove(v)
-                grid_vals[(i // 3) * 3 + j // 3].remove(v)
+                row_vals[i][v] = False
+                col_vals[j][v] = False
+                grid_vals[grid_idx(i, j)][v] = False
 
             return False
 
